@@ -1,0 +1,25 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.pyo
+
+# ===== Virtual environment =====
+.venv/
+
+# ===== PyTorch / ML artifacts =====
+*.ckpt
+*.pth
+*.pt
+
+# ===== Logs =====
+log/
+logs/
+THUCNews/log/
+
+# ===== Model outputs =====
+THUCNews/saved_dict/
+runs/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
