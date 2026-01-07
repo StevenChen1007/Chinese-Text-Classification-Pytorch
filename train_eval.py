@@ -67,7 +67,7 @@ def init_network(model, method='xavier', exclude='embedding', seed=123):
                 pass
 
 
-def train(config, model, train_iter, dev_iter, test_iter):
+def train(config, model, train_iter, dev_iter, test_iter, do_test=False):
     """
     训练主函数
     
@@ -77,6 +77,7 @@ def train(config, model, train_iter, dev_iter, test_iter):
         train_iter: 训练数据迭代器
         dev_iter: 验证数据迭代器
         test_iter: 测试数据迭代器
+        do_test: 是否在训练结束后运行测试集评估（调参期间设为False避免泄漏）
     
     关键超参数（在config中设置）：
         - learning_rate: 学习率 ⭐重要
@@ -177,7 +178,12 @@ def train(config, model, train_iter, dev_iter, test_iter):
     writer.close()
     
     # ==================== 训练结束，测试最终效果 ====================
-    test(config, model, test_iter)
+    # 调参阶段关闭测试，避免用测试集做决策
+    if do_test:
+        test(config, model, test_iter)
+    else:
+        print("=== Tuning mode: skipping test evaluation ===")
+        print(f"Best dev_loss: {dev_best_loss:.4f}")
 
 
 def test(config, model, test_iter):

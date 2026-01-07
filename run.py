@@ -73,9 +73,10 @@ if __name__ == '__main__':
     config = x.Config(dataset, embedding)
     
     # ==================== 3. 设置随机种子（保证可复现）====================
-    np.random.seed(1)                          # numpy随机种子
-    torch.manual_seed(1)                       # CPU随机种子
-    torch.cuda.manual_seed_all(1)              # 所有GPU随机种子
+    SEED = 1  # 最终测试使用seed=1
+    np.random.seed(SEED)                          # numpy随机种子
+    torch.manual_seed(SEED)                       # CPU随机种子
+    torch.cuda.manual_seed_all(SEED)              # 所有GPU随机种子
     torch.backends.cudnn.deterministic = True  # cuDNN使用确定性算法
     # 注意：设置deterministic=True会略微降低训练速度
 
@@ -118,5 +119,9 @@ if __name__ == '__main__':
     # 1. 训练模型
     # 2. 在验证集上评估
     # 3. 保存最佳模型
-    # 4. 最后在测试集上评估
-    train(config, model, train_iter, dev_iter, test_iter)
+    # 4. （可选）最后在测试集上评估
+    # 
+    # 调参阶段：do_test=False，避免使用测试集做决策
+    # 最终确认：do_test=True，在测试集上评估一次
+    DO_TEST = False  # 调参时设为False，最终确认时改为True
+    train(config, model, train_iter, dev_iter, test_iter, do_test=DO_TEST)

@@ -36,22 +36,22 @@ class Config(object):
         # [重要-正则化] dropout比例：防止过拟合
         # 建议搜索范围：[0.1, 0.3, 0.5, 0.7]
         # 原理：随机丢弃神经元，增强泛化能力
-        self.dropout = 0.5
+        self.dropout = 0.7  # 固定dropout*
         
         # [重要-优化器] 学习率：控制参数更新步长
         # 建议搜索范围：[1e-4, 5e-4, 1e-3, 2e-3, 5e-3]（对数尺度）
         # 原理：太大会震荡/发散，太小收敛慢
-        self.learning_rate = 1e-3
+        self.learning_rate = 2e-3  # 最终配置：lr_final
         
         # [重要-模型容量] LSTM隐藏层维度
         # 建议搜索范围：[64, 128, 256, 512]
         # 原理：控制模型表达能力，太大容易过拟合
-        self.hidden_size = 128
+        self.hidden_size = 128  # 固定hidden*
         
         # [重要-模型深度] LSTM层数
         # 建议搜索范围：[1, 2, 3]
         # 原理：更深可以学习更复杂的特征，但也更难训练
-        self.num_layers = 2
+        self.num_layers = 2  # 固定layers*
         
         # ==================== 次要超参数 ====================
         
@@ -66,7 +66,8 @@ class Config(object):
         # [次要] batch大小：主要影响训练速度和GPU内存
         # 注意：改变batch_size需要相应调整learning_rate
         # 建议范围：[32, 64, 128, 256]
-        self.batch_size = 128
+        # 调参阶段固定为256（已测试最大可用）
+        self.batch_size = 256
         
         # [次要] 序列填充长度：根据数据分布设置
         # 数据集文本长度20-30，32是合理的
